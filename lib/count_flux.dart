@@ -16,7 +16,8 @@ class CountDispatcher {
   factory CountDispatcher() => _instance;
   CountDispatcher._internal();
 
-  final BehaviorSubject<int> count = BehaviorSubject<int>.seeded(0);
+  // ignore: close_sinks
+  final BehaviorSubject<int> count = BehaviorSubject<int>();
 }
 
 class CountStore {
