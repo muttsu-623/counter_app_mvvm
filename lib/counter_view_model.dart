@@ -1,27 +1,33 @@
+import 'package:flutter_app_mvvm_sample/app_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 import 'count_flux.dart';
 
-final countViewModelProvider = StateNotifierProvider((ref) => CounterViewModel(ref.read(countFluxProvider)));
+final countViewModelProvider = StateNotifierProvider((ref) => CounterViewModel(ref, ref.read(countFluxProvider)));
 
-class CounterViewModel extends StateNotifier<CounterViewState> {
+class CounterViewModel extends AppViewModel<CounterViewState> {
 
-  factory CounterViewModel(CountFlux countFlux) {
-    return CounterViewModel._(CounterViewState(0), countFlux);
+  factory CounterViewModel(ProviderReference ref, CountFlux countFlux) {
+    return CounterViewModel._(ref, CounterViewState(0), countFlux);
   }
 
-  CounterViewModel._(CounterViewState state, this.countFlux) : super(state) {
-    _incrementCount.stream.listen((_) => countFlux.actionCreator.changeCount(countFlux.store.count.value+1));
-    countFlux.store.count.listen((count) => this.state = CounterViewState(count));
+  CounterViewModel._(ProviderReference ref, CounterViewState state, this.countFlux) : super(ref, state) {
+    _compositeSubscription.add(_incrementCount.stream.listen((_) => countFlux.actionCreator.changeCount(countFlux.store.count.value+1)));
+    _compositeSubscription.add(countFlux.store.count.listen((count) => this.state = CounterViewState(count)));
   }
 
   final CountFlux countFlux;
 
+  final _compositeSubscription = CompositeSubscription();
+
   final _incrementCount = PublishSubject<void>();
 
   void incrementCount() => _incrementCount.add(dynamic);
+
+  @override
+  void onDispose() => _compositeSubscription.dispose();
 }
 
 class CounterViewState {
