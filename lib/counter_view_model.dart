@@ -1,16 +1,15 @@
 import 'package:flutter_app_mvvm_sample/app_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:state_notifier/state_notifier.dart';
 
 import 'count_flux.dart';
 
-final countViewModelProvider = StateNotifierProvider((ref) => CounterViewModel(ref, ref.read(countFluxProvider)));
+final countViewModelProvider = StateNotifierProvider.autoDispose((ref) => CounterViewModel(ref, ref.read(countFluxProvider)));
 
 class CounterViewModel extends AppViewModel<CounterViewState> {
 
   factory CounterViewModel(ProviderReference ref, CountFlux countFlux) {
-    return CounterViewModel._(ref, CounterViewState(0), countFlux);
+    return CounterViewModel._(ref, CounterViewState(countFlux.store.count.value), countFlux);
   }
 
   CounterViewModel._(ProviderReference ref, CounterViewState state, this.countFlux) : super(ref, state) {
