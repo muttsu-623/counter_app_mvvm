@@ -17,7 +17,7 @@ class CountDispatcher {
   CountDispatcher._internal();
 
   // ignore: close_sinks
-  final BehaviorSubject<int> count = BehaviorSubject<int>();
+  final BehaviorSubject<int> count = BehaviorSubject<int>.seeded(0);
 }
 
 class CountStore {
