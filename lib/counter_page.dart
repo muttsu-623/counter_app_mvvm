@@ -12,9 +12,6 @@ class CounterView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    int count = useProvider(countViewModelProvider.state.select((value) => value.count));
-    CounterViewModel viewModel = useProvider(countViewModelProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -26,17 +23,17 @@ class CounterView extends HookWidget {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$count',
-              style: Theme.of(context).textTheme.headline4,
+            Center(
+              child: Text(
+                "${useProvider(countViewModelProvider.state.select((value) => value.count))}",
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          viewModel.incrementCount();
-        },
+        onPressed: () => context.read(countViewModelProvider).incrementCount(),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
