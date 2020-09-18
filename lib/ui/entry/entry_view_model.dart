@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/all.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'app_view_model.dart';
-import 'count_flux.dart';
+import '../../app_view_model.dart';
+import '../../data/flux/count_flux.dart';
 
 final entryViewModelProvider = StateNotifierProvider.autoDispose((ref) => EntryViewModel(ref, ref.read(countFluxProvider)));
 

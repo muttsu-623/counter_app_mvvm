@@ -2,7 +2,7 @@ import 'package:flutter_app_mvvm_sample/app_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'count_flux.dart';
+import '../../data/flux/count_flux.dart';
 
 final countViewModelProvider = StateNotifierProvider.autoDispose((ref) => CounterViewModel(ref, ref.read(countFluxProvider)));
 

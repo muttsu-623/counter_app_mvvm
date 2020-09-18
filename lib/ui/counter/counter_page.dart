@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'counter_view_model.dart';
 
-class CounterView extends HookWidget {
-  CounterView({Key key, this.title}) : super(key: key);
+class CounterPage extends HookWidget {
+  const CounterPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -39,6 +39,4 @@ class CounterView extends HookWidget {
       ),
     );
   }
-
-
 }
